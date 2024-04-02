@@ -127,7 +127,7 @@ export default {
             return
           }
           request.post("user/register",this.form).then(res=>{
-            if(res.code == 0)
+            if(res.code == 200)
             {
               ElMessage.success("注册成功")
               this.$router.push("/login")

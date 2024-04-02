@@ -226,16 +226,16 @@ export default {
       this.outDateBook =[];
       request.get("/book",{
         params:{
-          pageNum: this.currentPage,
-          pageSize: this.pageSize,
-          search1: this.search1,
-          search2: this.search2,
-          search3: this.search3,
+          curPage: this.currentPage,
+          size: this.pageSize,
+          isbn: this.search1,
+          name: this.search2,
+          author: this.search3,
         }
       }).then(res =>{
         console.log(res)
-        this.tableData = res.data.records
-        this.total = res.data.total
+        this.tableData = res.result.records
+        this.total = res.result.total
       })
     //
       if(this.user.role == 2){

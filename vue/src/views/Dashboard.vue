@@ -43,13 +43,13 @@ export default {
     this.circleTimer()
 
     request.get("/dashboard").then(res=>{
-      if(res.code == 0)
+      if(res.code == 200)
       {
 
-        this.cards[0].data = res.data.lendRecordCount
-        this.cards[1].data = res.data.visitCount
-        this.cards[2].data = res.data.bookCount
-        this.cards[3].data = res.data.userCount
+        this.cards[0].data = res.result.lendRecordCount
+        this.cards[1].data = res.result.visitCount
+        this.cards[2].data = res.result.bookCount
+        this.cards[3].data = res.result.userCount
 
       }
       else

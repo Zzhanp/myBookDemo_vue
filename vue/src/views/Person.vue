@@ -6,7 +6,7 @@
         <el-form-item label="用户名">
           <el-input style="width: 80%" v-model="form.username" disabled></el-input>
         </el-form-item>
-        <el-form-item label="姓名">
+        <el-form-item label="昵称">
           <el-input style="width: 80%" v-model="form.nickName"></el-input>
         </el-form-item>
         <el-form-item label="权限">

@@ -82,14 +82,26 @@ export default {
           }
 
           request.post("user/login", this.form).then(res => {
-            if (res.code == 0) {
+            if (res.code == 200) {
               ElMessage.success("登录成功")
-              sessionStorage.setItem("user",JSON.stringify(res.data))//缓存用户信息
-              this.$router.push("/dashboard")
+              // sessionStorage.setItem("user",JSON.stringify(res.result))//缓存用户信息
+              // this.$router.push("/dashboard")
+              request.get("user/getUserInfo").then(res => {
+                if (res.code == 200) {
+                  ElMessage.success("获取信息成功")
+                  sessionStorage.setItem("user",JSON.stringify(res.result))//缓存用户信息
+                  this.$router.push("/dashboard")
+                } else {
+                  ElMessage.error(res.message)
+                }
+              })
             } else {
-              ElMessage.error(res.msg)
+              ElMessage.error(res.message)
+              return
             }
           })
+
+
         }
       })
 

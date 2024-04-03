@@ -43,10 +43,10 @@
       </el-table-column>
       <el-table-column prop="isbn" label="图书编号" sortable />
       <el-table-column prop="bookName" label="图书名称" />
-      <el-table-column prop="nickName" label="借阅者" />
-      <el-table-column prop="lendtime" label="借阅时间" />
-      <el-table-column prop="deadtime" label="最迟归还日期" />
-      <el-table-column prop="prolong" label="可续借次数" />
+      <el-table-column prop="userName" label="借阅者" />
+      <el-table-column prop="lendTime" label="借阅时间" />
+      <el-table-column prop="deadTime" label="最迟归还日期" />
+      <el-table-column prop="renewTimes" label="可续借次数" />
       <el-table-column fixed="right" label="操作" >
         <template v-slot="scope">
           <el-button  size="mini" @click ="handleEdit(scope.row)" v-if="user.role == 1">修改</el-button>
@@ -86,10 +86,10 @@
             <el-input style="width: 80%" v-model="form.bookName"></el-input>
           </el-form-item>
           <el-form-item label="借阅者">
-            <el-input style="width: 80%" v-model="form.nickName"></el-input>
+            <el-input style="width: 80%" v-model="form.userName"></el-input>
           </el-form-item>
           <el-form-item label="续借次数">
-            <el-input style="width: 80%" v-model="form.prolong"></el-input>
+            <el-input style="width: 80%" v-model="form.renewTimes"></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -141,8 +141,8 @@ export default {
       if(this.user.role == 1){
         request.get("/bookwithuser",{
           params:{
-            pageNum: this.currentPage,
-            pageSize: this.pageSize,
+            curPage: this.currentPage,
+            size: this.pageSize,
             search1: this.search1,
             search2: this.search2,
             search3: this.search3,
@@ -150,22 +150,23 @@ export default {
         }).then(res =>{
           console.log(res)
           this.tableData = res.data.records
+          console.log(this.tableData)
           this.total = res.data.total
         })
       }
       else {
         request.get("/bookwithuser",{
           params:{
-            pageNum: this.currentPage,
-            pageSize: this.pageSize,
-            search1: this.search1,
-            search2: this.search2,
+            curPage: this.currentPage,
+            size: this.pageSize,
+            isbn: this.search1,
+            name: this.search2,
             search3: this.user.id,
           }
         }).then(res =>{
           console.log(res)
-          this.tableData = res.data.records
-          this.total = res.data.total
+          this.tableData = res.result.records
+          this.total = res.result.total
         })
       }
     },
@@ -213,7 +214,7 @@ export default {
       // this.form?这是自动保存在form中的，虽然显示时没有使用，但是这个对象中是有它的
         request.post("/bookwithuser",this.form).then(res =>{
           console.log(res)
-          if(res.code == 0){
+          if(res.code == 200){
             ElMessage({
               message: '修改信息成功',
               type: 'success',

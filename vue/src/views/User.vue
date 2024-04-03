@@ -143,17 +143,17 @@ export default {
     load(){
       request.get("user/usersearch",{
         params:{
-          pageNum: this.currentPage,
-          pageSize: this.pageSize,
-          search1: this.search1,
-          search2: this.search2,
-          search3: this.search3,
-          search4: this.search4,
+          curPage: this.currentPage,
+          size: this.pageSize,
+          id: this.search1,
+          username: this.search2,
+          phone: this.search3,
+          address: this.search4,
         }
       }).then(res =>{
         console.log(res)
-        this.tableData = res.data.records
-        this.total = res.data.total
+        this.tableData = res.result.records
+        this.total = res.result.total
       })
     },
     clear(){

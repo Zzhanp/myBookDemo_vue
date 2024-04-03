@@ -249,8 +249,8 @@ export default {
           }
         }).then(res =>{
           console.log(res)
-          this.bookData = res.data.records
-          this.number = this.bookData.length;
+          this.bookData = res.result.records
+          this.number = res.result.total;
           var nowDate = new Date();
           for(let i=0; i< this.number; i++){
             this.isbnArray[i] = this.bookData[i].isbn;

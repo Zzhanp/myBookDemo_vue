@@ -15,7 +15,7 @@
           </el-input>
         </el-form-item >
         <el-form-item label="借阅者" v-if="user.role == 1">
-          <el-input v-model="search3" placeholder="请输入借阅者昵称"  clearable>
+          <el-input v-model="search3" placeholder="请输入借阅者姓名"  clearable>
             <template #prefix><el-icon class="el-input__icon"><search /></el-icon></template>
           </el-input>
         </el-form-item >
@@ -143,9 +143,9 @@ export default {
           params:{
             curPage: this.currentPage,
             size: this.pageSize,
-            search1: this.search1,
-            search2: this.search2,
-            search3: this.search3,
+            isbn: this.search1,
+            name: this.search2,
+            userName: this.search3,
           }
         }).then(res =>{
           console.log(res)
@@ -161,7 +161,7 @@ export default {
             size: this.pageSize,
             isbn: this.search1,
             name: this.search2,
-            search3: this.user.id,
+            userId: this.user.id,
           }
         }).then(res =>{
           console.log(res)

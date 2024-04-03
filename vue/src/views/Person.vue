@@ -3,8 +3,8 @@
     <el-card style="width: 40%; margin-left: 120px; margin-top: 40px" >
         <h2 style="padding: 30px">个人信息</h2>
       <el-form :model="form" ref="form" label-width="80px">
-        <el-form-item label="用户名">
-          <el-input style="width: 80%" v-model="form.username" disabled></el-input>
+        <el-form-item label="姓名">
+          <el-input style="width: 80%" v-model="form.userName" disabled></el-input>
         </el-form-item>
         <el-form-item label="昵称">
           <el-input style="width: 80%" v-model="form.nickName"></el-input>
@@ -50,15 +50,15 @@ export default {
   },
   methods: {
     update() {
-      request.put("/user", this.form).then(res => {
+      request.put("/user/updateUserInfo", this.form).then(res => {
         console.log(res)
-        if (res.code === '0') {
+        if (res.code == 200) {
           ElMessage.success("更新成功")
           sessionStorage.setItem("user", JSON.stringify(this.form))
           // 触发Layout更新用户信息
           this.$emit("userInfo")
         } else {
-          ElMessage.error(res.msg)
+          ElMessage.error(res.message)
         }
       })
 

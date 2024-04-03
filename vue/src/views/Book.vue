@@ -241,11 +241,11 @@ export default {
       if(this.user.role == 2){
         request.get("/bookwithuser",{
           params:{
-            pageNum: "1",
-            pageSize: this.total,
-            search1: "",
-            search2: "",
-            search3: this.user.id,
+            curPage: "1",
+            size: this.total,
+            // search1: "",
+            // search2: "",
+            userId: this.user.id,
           }
         }).then(res =>{
           console.log(res)
@@ -278,13 +278,13 @@ export default {
     },
 
     handleDelete(id){
-      request.delete("book/" + id ).then(res =>{
+      request.delete("book/delete" + id ).then(res =>{
         console.log(res)
         if(res.code == 200 ){
           ElMessage.success("删除成功")
         }
         else
-          ElMessage.error(res.msg)
+          ElMessage.error(res.massage)
         this.load()
       })
     },

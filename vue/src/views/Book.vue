@@ -62,7 +62,7 @@
       <el-table-column prop="price" label="价格" sortable/>
       <el-table-column prop="author" label="作者" />
       <el-table-column prop="publisher" label="出版社" />
-      <el-table-column prop="createTime" label="出版时间" sortable/>
+      <el-table-column prop="publishDate" label="出版时间" sortable/>
       <el-table-column prop="status" label="状态">
         <template v-slot="scope">
           <el-tag v-if="scope.row.status == 0" type="warning">已借阅</el-tag>
@@ -141,7 +141,7 @@
           </el-form-item>
           <el-form-item label="出版时间">
             <div>
-              <el-date-picker value-format="YYYY-MM-DD" type="date" style="width: 80%" clearable v-model="form.createTime" ></el-date-picker>
+              <el-date-picker value-format="YYYY-MM-DD" type="date" style="width: 80%" clearable v-model="form.publishDate" ></el-date-picker>
             </div>
           </el-form-item>
         </el-form>
@@ -173,7 +173,7 @@
           </el-form-item>
           <el-form-item label="出版时间">
             <div>
-              <el-date-picker value-format="YYYY-MM-DD" type="date" style="width: 80%" clearable v-model="form.createTime" ></el-date-picker>
+              <el-date-picker value-format="YYYY-MM-DD" type="date" style="width: 80%" clearable v-model="form.publishDate" ></el-date-picker>
             </div>
           </el-form-item>
         </el-form>
@@ -280,7 +280,7 @@ export default {
     handleDelete(id){
       request.delete("book/" + id ).then(res =>{
         console.log(res)
-        if(res.code == 0 ){
+        if(res.code == 200 ){
           ElMessage.success("删除成功")
         }
         else
@@ -301,7 +301,7 @@ export default {
       this.form.id = id
       request.put("/book",this.form).then(res =>{
         console.log(res)
-        if(res.code == 0){
+        if(res.code == 200){
           ElMessage({
             message: '还书成功',
             type: 'success',
@@ -374,7 +374,7 @@ export default {
       console.log(bn)
       request.put("/book",this.form).then(res =>{
         console.log(res)
-        if(res.code == 0){
+        if(res.code == 200){
           ElMessage({
             message: '借阅成功',
             type: 'success',
@@ -426,7 +426,7 @@ export default {
       if(this.form.id){
         request.put("/book",this.form).then(res =>{
           console.log(res)
-          if(res.code == 0){
+          if(res.code == 200){
             ElMessage({
               message: '修改书籍信息成功',
               type: 'success',
@@ -443,13 +443,13 @@ export default {
       else {
         this.form.borrownum = 0
         this.form.status = 1
-        request.post("/book",this.form).then(res =>{
+        request.post("/book/addBook",this.form).then(res =>{
           console.log(res)
-          if(res.code == 0){
+          if(res.code == 200){
             ElMessage.success('上架书籍成功')
           }
           else {
-            ElMessage.error(res.msg)
+            ElMessage.error(res.message)
           }
           this.load()
           this.dialogVisible = false

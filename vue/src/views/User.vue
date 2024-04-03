@@ -47,8 +47,8 @@
                        width="55">
       </el-table-column>
       <el-table-column prop="id" label="读者编号" sortable />
-      <el-table-column prop="username" label="用户名" />
-      <el-table-column prop="nickName" label="姓名" />
+      <el-table-column prop="username" label="姓名" />
+      <el-table-column prop="nickName" label="用户名" />
       <el-table-column prop="phone" label="电话号码" />
       <el-table-column prop="sex" label="性别" />
       <el-table-column prop="address" label="地址" />
@@ -78,10 +78,10 @@
 
       <el-dialog v-model="dialogVisible" title="编辑读者信息" width="30%">
         <el-form :model="form" label-width="120px">
-          <el-form-item label="用户名">
+          <el-form-item label="姓名">
             <el-input style="width: 80%" v-model="form.username"></el-input>
           </el-form-item>
-          <el-form-item label="昵称">
+          <el-form-item label="用户名">
             <el-input style="width: 80%" v-model="form.nickName"></el-input>
           </el-form-item>
           <el-form-item label="电话号码">
@@ -131,12 +131,12 @@ export default {
       }
       //  一个小优化，直接发送这个数组，而不是一个一个的提交删除
       request.post("/user/deleteBatch",this.ids).then(res =>{
-        if(res.code === '0'){
+        if(res.code === '200'){
           ElMessage.success("批量删除成功")
           this.load()
         }
         else {
-          ElMessage.error(res.msg)
+          ElMessage.error(res.message)
         }
       })
     },
@@ -164,13 +164,17 @@ export default {
     },
 
     handleDelete(id){
-      request.delete("user/" + id ).then(res =>{
+      request.get("user/delete", {
+        params:{
+          id: id
+        }
+      }).then(res =>{
         console.log(res)
-        if(res.code == 0 ){
+        if(res.code == 200 ){
           ElMessage.success("删除成功")
         }
         else
-          ElMessage.error(res.msg)
+          ElMessage.error(res.message)
         this.load()
       })
     },
@@ -182,16 +186,16 @@ export default {
     },
     save(){
       if(this.form.id){
-        request.put("/user",this.form).then(res =>{
+        request.put("/user/updateUserInfo",this.form).then(res =>{
           console.log(res)
-          if(res.code == 0){
+          if(res.code == 200){
             ElMessage({
               message: '更新成功',
               type: 'success',
             })
           }
           else {
-            ElMessage.error(res.msg)
+            ElMessage.error(res.message)
           }
 
           this.load() //不知道为啥，更新必须要放在这里面
@@ -201,7 +205,7 @@ export default {
       else {
         request.post("/user",this.form).then(res =>{
           console.log(res)
-          if(res.code == 0){
+          if(res.code == 200){
             ElMessage.success('添加成功')
           }
           else {

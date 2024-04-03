@@ -104,7 +104,7 @@ export default {
         if (valid) {
 
           request.put("/user", this.form2).then(res => {
-            if (res.code == 0) {
+            if (res.code == 200) {
               ElMessage.success("密码修改成功,请重新登录")
               sessionStorage.removeItem("user")//清空缓存的用户信息
               this.$router.push("/login")//跳转登录界面
